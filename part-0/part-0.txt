@@ -1,0 +1,112 @@
+0.4 Perinteinen sivu (uuden muistiinpanon lisääminen):
+
+////
+Huom. Kuvaus alkaa tilanteesta, jossa käyttäjä on jo sivulla eli sivu on jo ladattu
+////
+
+suunta: selaimesta palvelimelle 
+Toiminto: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+
+////
+kommentti:
+palvelin vastaa POST-pyyntöön uudelleenohjauspyynnöllä, jolloin selain lataa
+uudelleen muistiinpanosivun
+////
+
+suunta: selaimesta palvelimelle 
+toiminto: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+
+suunta: palvelimesta selaimelle
+Toiminto: HTML-koodi
+
+suunta: selaimesta palvelimelle
+toiminto: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+
+suunta: palvelimesta selaimelle
+toiminto: main.css
+
+suunta: selaimesta palvelimelle
+toiminto: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+
+suunta: palvelimesta selaimelle
+toiminto: main.js
+
+////
+kommentti:
+palvelin alkaa suorittaa omaa koodiaan joka luo uuden muistiinpano-olion 
+kenttään syötetyn tekstin ja luomishetken perusteella. Nämä tiedot sisältyivät
+aluksi tehtyyn POST-pyyntöön.
+////
+
+suunta: selaimelta palvelimelle 
+toiminto: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+
+suunta: palvelimesta selaimelle
+toiminto: [{ content: "HTML on helppoa", date: "2019-01-01" }, ...]
+
+////
+kommentti:
+selain suorittaa tapahtumankäsittelijän joka renderöi muistiinpanot näytölle. 
+POST-pyynnön tekemisen sekä palvelimella olevan koodin ansiosta käyttäjän
+kenttään syöttämä tieto on nyt mukana renderöidyissä muistiinpanoissa.
+////
+---------------------
+0.5 SPA (sivun näyttäminen):
+
+suunta: selaimesta palvelimelle 
+Toiminto: HTTP GET https://fullstack-exampleapp.herokuapp.com/Spa
+
+suunta: palvelimesta selaimelle
+Toiminto: HTML-koodi
+
+suunta: selaimesta palvelimelle
+toiminto: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+
+suunta: palvelimesta selaimelle
+toiminto: main.css
+
+suunta: selaimesta palvelimelle
+toiminto: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
+
+suunta: palvelimesta selaimelle
+toiminto: spa.js
+
+////
+kommentti:
+
+selain alkaa suorittaa js-koodia, johon sisältyy pyyntö hakea 
+JSON-data palvelimelta
+////
+
+suunta: selaimesta palvelimelle
+toiminto: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+
+suunta: palvelimesta selaimelle
+toiminto: [{ content: "HTML on helppoa", date: "2019-01-01" }, ...]
+
+////
+kommentti:
+
+selain suorittaa spa.js-tiedostoon sisältyvän tapahtumankäsittelijän, joka 
+piirtää olemassa olevat muistiinpanot näytölle data.json-tiedoston perusteella.
+////
+---------------------
+0.6 SPA (lomakkeella lähettäminen):
+
+////
+Kaavio alkaa tilanteesta, jossa käyttäjä on jo sivulla eli sivu on jo ladattu
+////
+
+suunta: selaimesta palvelimelle
+toiminto: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+//kommentti:
+
+Selain alkaa suorittaa aiemmin ladattua js-koodia joka hakee sivulta lomake-elementin ja rekisteröi
+rekisteröi sille tapahtumankäsittelijän. Tapahtumankäsittelijä estää
+ensin oletustoiminnan eli lomakkeen lähettämistoiminnan ja sivun uudelleen
+lataamisen. Tämän jälkeen tapahtumankäsittelijä luo uuden muistiinpanon
+kenttään kirjoitetun tekstin ja kirjoitusajankohdan perusteella. Uusi 
+muistiinpano lisätään listalle ja sivulle piirretään uudelleen kaikki
+muistiinpanot. Juuri luotu muistiinpano lähetetään myös palvelimelle HTTP POST 
+-tyyppisenä pyyntönä JSON-muodossa.
